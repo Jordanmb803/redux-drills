@@ -1,8 +1,18 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import './App.css';
+import {addGuest, removeGuest} from './ducks/guestList';
 
 class App extends Component {
+  constructor(){
+    super()
+    this.state = {
+      input: ''
+    }
+
+  }
+
+
   render() {
     return (
       <div className="App">
@@ -13,14 +23,14 @@ class App extends Component {
             return (
               <div key={i} className="list-item">
                 <li>{guest}</li>
-                <button type="" className="">Remove</button>
+                <button type="" className="" onClick={()=>this.props.removeGuest(i)}>Remove</button>
               </div>
             )
           })}
         </ul>
         <div className="add-guest">
-          Add guest: <input type="" className=""/>
-          <button type="" className="">Add</button>
+          Add guest: <input type="" className="" onChange={e=>this.setState({input: e.target.value})} />
+          <button type="" className="" onClick={()=>this.props.addGuest(this.state.input)}>Add</button>
         </div>
       </div>
     );
@@ -33,4 +43,9 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps)(App);
+let actions = {
+  removeGuest,
+  addGuest
+}
+
+export default connect(mapStateToProps, actions)(App);
